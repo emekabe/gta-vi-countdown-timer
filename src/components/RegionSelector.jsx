@@ -100,7 +100,7 @@ export default function RegionSelector({ regions, selected, onSelect }) {
   return (
     <div className="region">
       <span className="region__caption" id="region-caption">
-        PS5 store region
+        PlayStation store region
       </span>
       <button
         ref={triggerRef}
