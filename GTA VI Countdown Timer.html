@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>GTA VI Countdown</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #060412;
+      --bg-mid: #130928;
+      --pink: #FF1A8C;
+      --pink-glow: rgba(255, 26, 140, 0.45);
+      --cyan: #00D4FF;
+      --gold: #FFB800;
+      --text-dim: rgba(255, 255, 255, 0.4);
+      --white: #ffffff;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root { --bg-deep: #060412; }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: inherit; }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      min-height: 100%;
+      background: radial-gradient(ellipse at 50% -10%, #3a0a5e 0%, #130928 35%, var(--bg-deep) 70%);
+      color: var(--white);
+      font-family: 'Space Grotesk', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Retro grid floor */
+    .grid-floor {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 45%;
+      background:
+        linear-gradient(to right, rgba(255, 26, 140, 0.09) 1px, transparent 1px),
+        linear-gradient(to top, rgba(255, 26, 140, 0.09) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+      mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+      perspective: 600px;
+    }
+
+    /* Sunset bloom */
+    .bloom {
+      position: fixed;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 350px;
+      background: radial-gradient(ellipse, rgba(255, 80, 10, 0.12) 0%, rgba(255, 26, 140, 0.09) 50%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      width: 100%;
+      max-width: 960px;
+    }
+
+    .studio-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      font-weight: 300;
+      opacity: 0.7;
+      margin-bottom: 1rem;
+    }
+
+    .title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 18vw, 10rem);
+      line-height: 0.85;
+      letter-spacing: 0.03em;
+      background: linear-gradient(140deg, #FF7235 0%, #FF1A8C 45%, #BF4FFF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 28px rgba(255, 26, 140, 0.45));
+      margin-bottom: 0.5rem;
+    }
+
+    .tagline {
+      font-size: clamp(0.7rem, 1.6vw, 0.82rem);
+      color: var(--text-dim);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      margin-bottom: clamp(2.5rem, 6vw, 4rem);
+    }
+
+    .countdown {
+      display: flex;
+      gap: clamp(0.5rem, 3vw, 2.5rem);
+      justify-content: center;
+      align-items: flex-end;
+      margin-bottom: clamp(2rem, 5vw, 3.5rem);
+    }
+
+    .unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.8rem, 15vw, 8rem);
+      line-height: 1;
+      color: var(--white);
+      text-shadow:
+        0 0 12px var(--pink-glow),
+        0 0 35px var(--pink-glow),
+        0 0 70px rgba(255, 26, 140, 0.12);
+      min-width: clamp(2.2ch, 9vw, 2.8ch);
+      text-align: center;
+      transition: text-shadow 0.08s ease;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .number.pulse {
+        text-shadow:
+          0 0 20px var(--pink),
+          0 0 55px var(--pink-glow),
+          0 0 100px rgba(255, 26, 140, 0.2);
+      }
+    }
+
+    .label {
+      font-size: clamp(0.55rem, 1.3vw, 0.72rem);
+      letter-spacing: 0.18em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      font-weight: 400;
+      opacity: 0.65;
+    }
+
+    .sep {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 10vw, 6rem);
+      color: var(--pink);
+      opacity: 0.22;
+      line-height: 1;
+      align-self: center;
+      margin-bottom: 1.4rem;
+    }
+
+    .release-line {
+      font-size: clamp(0.72rem, 1.5vw, 0.82rem);
+      color: var(--text-dim);
+      font-weight: 300;
+      line-height: 2;
+    }
+
+    .release-line strong {
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    .platforms {
+      display: inline-flex;
+      gap: 1rem;
+      margin-top: 0.75rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .platforms span {
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 3px;
+      padding: 0.2rem 0.6rem;
+    }
+
+    .launched-msg {
+      display: none;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      background: linear-gradient(135deg, #FF7235, #FF1A8C);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 20px rgba(255, 26, 140, 0.5));
+    }
+  </style>
+</head>
+<body>
+  <div class="bloom"></div>
+  <div class="grid-floor"></div>
+
+  <div class="container">
+    <p class="studio-label">Rockstar Games</p>
+    <h1 class="title">GTA VI</h1>
+    <p class="tagline">Vice City awaits &nbsp;&middot;&nbsp; The wait is almost over</p>
+
+    <div class="countdown" id="countdown">
+      <div class="unit">
+        <span class="number" id="days">00</span>
+        <span class="label">Days</span>
+      </div>
+      <span class="sep">:</span>
+      <div class="unit">
+        <span class="number" id="hours">00</span>
+        <span class="label">Hours</span>
+      </div>
+      <span class="sep">:</span>
+      <div class="unit">
+        <span class="number" id="minutes">00</span>
+        <span class="label">Minutes</span>
+      </div>
+      <span class="sep">:</span>
+      <div class="unit">
+        <span class="number" id="seconds">00</span>
+        <span class="label">Seconds</span>
+      </div>
+    </div>
+
+    <p class="launched-msg" id="launched">It's here. Time to play.</p>
+
+    <div class="release-line">
+      Releases <strong>November 19, 2026</strong>
+      <div class="platforms">
+        <span>PS5</span>
+        <span>Xbox Series X|S</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RELEASE = new Date('2026-11-19T00:00:00');
+
+    const el = {
+      days:    document.getElementById('days'),
+      hours:   document.getElementById('hours'),
+      minutes: document.getElementById('minutes'),
+      seconds: document.getElementById('seconds'),
+      countdown: document.getElementById('countdown'),
+      launched:  document.getElementById('launched'),
+    };
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function flash(node) {
+      node.classList.add('pulse');
+      setTimeout(() => node.classList.remove('pulse'), 160);
+    }
+
+    let prev = {};
+
+    function tick() {
+      const now  = new Date();
+      const diff = RELEASE - now;
+
+      if (diff <= 0) {
+        el.countdown.style.display = 'none';
+        el.launched.style.display  = 'block';
+        return;
+      }
+
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000)  / 60000);
+      const s = Math.floor((diff % 60000)    / 1000);
+
+      el.days.textContent    = pad(d);
+      el.hours.textContent   = pad(h);
+      el.minutes.textContent = pad(m);
+      el.seconds.textContent = pad(s);
+
+      if (prev.s !== s)  flash(el.seconds);
+      if (prev.m !== m)  flash(el.minutes);
+      if (prev.h !== h)  flash(el.hours);
+      if (prev.d !== d)  flash(el.days);
+
+      prev = { d, h, m, s };
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>
