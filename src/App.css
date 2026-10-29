@@ -761,6 +761,113 @@ button {
   color: var(--color-text-dim);
 }
 
+/* Regional advisory card for unsupported PS Store countries */
+.region-advisory {
+  margin: 0.3rem 0.35rem 0.75rem 0.35rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255, 26, 140, 0.08) 0%, rgba(196, 79, 255, 0.04) 100%);
+  border: 1px solid rgba(255, 26, 140, 0.25);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.region-advisory__header {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.4rem;
+}
+
+.region-advisory__flag {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.region-advisory__titles {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.region-advisory__country {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.region-advisory__tag {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(255, 26, 140, 0.18);
+  color: var(--color-pink);
+  border: 1px solid rgba(255, 26, 140, 0.35);
+}
+
+.region-advisory__desc {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0 0 0.75rem 0;
+}
+
+.region-advisory__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.region-advisory__prompt {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.region-advisory__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.region-advisory__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 140ms ease;
+}
+
+.region-advisory__btn:hover,
+.region-advisory__btn:focus-visible {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.region-advisory__btn-flag {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.region-advisory__btn-code {
+  color: var(--color-pink);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
 /* Local time hint */
 .hint {
   display: flex;
@@ -824,6 +931,54 @@ button {
 .hint__secondary strong {
   font-weight: 400;
   color: rgba(255, 255, 255, 0.7);
+}
+
+.hint-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 0.75rem;
+}
+
+.hint__meta-notes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  max-width: 580px;
+  text-align: center;
+}
+
+.hint__note {
+  font-size: clamp(0.72rem, 0.68rem + 0.15vw, 0.8rem);
+  line-height: 1.45;
+  color: var(--color-text-dim);
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.hint__note--unsupported {
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+}
+
+.hint__note-bullet {
+  color: var(--color-cyan);
+  font-weight: bold;
+}
+
+.hint__note-flag {
+  font-size: 1rem;
+  line-height: 1;
 }
 
 /* ==========================================================================

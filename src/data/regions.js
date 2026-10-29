@@ -5,7 +5,7 @@
  *   - Northern hemisphere DST has ended (EU: 25 Oct, US/CA: 1 Nov, IL: 25 Oct).
  *   - Southern hemisphere DST is active: Australia (Sydney) +11, New Zealand +13,
  *     Chile (Santiago) -3.
- *   - No DST: Brazil (abolished 2019), Mexico (abolished 2022), Nigeria (permanent UTC+1),
+ *   - No DST: Brazil (abolished 2019), Mexico (abolished 2022),
  *     Paraguay (permanent UTC-3 since Oct 2024), Türkiye (permanent UTC+3).
  * Countries spanning several zones use the zone of the capital / main population centre.
  *
@@ -60,7 +60,6 @@ const RAW_REGIONS = [
   { country: 'Malta', country_code: 'MT', region_code: 'SIEE', timezone_label: 'CET (UTC+1)', utc_offset_hours: 1, store_url: 'https://store.playstation.com/en-mt/', timezones: ['Europe/Malta'] },
   { country: 'Netherlands', country_code: 'NL', region_code: 'SIEE', timezone_label: 'CET (UTC+1)', utc_offset_hours: 1, store_url: 'https://store.playstation.com/nl-nl/', timezones: ['Europe/Amsterdam'] },
   { country: 'New Zealand', country_code: 'NZ', region_code: 'SIEE', timezone_label: 'NZDT (UTC+13)', utc_offset_hours: 13, store_url: 'https://store.playstation.com/en-nz/', timezones: ['Pacific/Auckland', 'Pacific/Chatham', 'NZ'] },
-  { country: 'Nigeria', country_code: 'NG', region_code: 'SIEE', timezone_label: 'WAT (UTC+1)', utc_offset_hours: 1, store_url: 'https://store.playstation.com/en-ng/', timezones: ['Africa/Lagos', 'Africa/Abuja', 'Africa/Porto-Novo', 'Africa/Douala', 'Africa/Kinshasa', 'Africa/Luanda'] },
   { country: 'Norway', country_code: 'NO', region_code: 'SIEE', timezone_label: 'CET (UTC+1)', utc_offset_hours: 1, store_url: 'https://store.playstation.com/no-no/', timezones: ['Europe/Oslo', 'Arctic/Longyearbyen'] },
   { country: 'Oman', country_code: 'OM', region_code: 'SIEE', timezone_label: 'GST (UTC+4)', utc_offset_hours: 4, store_url: 'https://store.playstation.com/en-om/', timezones: ['Asia/Muscat'] },
   { country: 'Poland', country_code: 'PL', region_code: 'SIEE', timezone_label: 'CET (UTC+1)', utc_offset_hours: 1, store_url: 'https://store.playstation.com/pl-pl/', timezones: ['Europe/Warsaw', 'Poland'] },
@@ -86,19 +85,111 @@ const RAW_REGIONS = [
   { country: 'South Korea', country_code: 'KR', region_code: 'SIEK', timezone_label: 'KST (UTC+9)', utc_offset_hours: 9, store_url: 'https://store.playstation.com/ko-kr/', timezones: ['Asia/Seoul', 'ROK'] },
 
   // ───────────── SIES — Southeast / East Asia ─────────────
+  { country: 'China', country_code: 'CN', region_code: 'SIES', timezone_label: 'CST (UTC+8)', utc_offset_hours: 8, store_url: 'https://store.playstation.com/zh-hans-cn/', timezones: ['Asia/Shanghai', 'Asia/Urumqi', 'Asia/Chongqing', 'Asia/Harbin', 'PRC'] },
   { country: 'Hong Kong', country_code: 'HK', region_code: 'SIES', timezone_label: 'HKT (UTC+8)', utc_offset_hours: 8, store_url: 'https://store.playstation.com/en-hk/', timezones: ['Asia/Hong_Kong', 'Hongkong', 'Asia/Macau', 'Asia/Macao'] },
   { country: 'Indonesia', country_code: 'ID', region_code: 'SIES', timezone_label: 'WIB (UTC+7)', utc_offset_hours: 7, store_url: 'https://store.playstation.com/en-id/', timezones: ['Asia/Jakarta', 'Asia/Pontianak', 'Asia/Makassar', 'Asia/Jayapura'] },
   { country: 'Malaysia', country_code: 'MY', region_code: 'SIES', timezone_label: 'MYT (UTC+8)', utc_offset_hours: 8, store_url: 'https://store.playstation.com/en-my/', timezones: ['Asia/Kuala_Lumpur', 'Asia/Kuching'] },
-  { country: 'Philippines', country_code: 'PH', region_code: 'SIES', timezone_label: 'PST (UTC+8)', utc_offset_hours: 8, store_url: 'https://store.playstation.com/en-ph/', timezones: ['Asia/Manila'] },
   { country: 'Singapore', country_code: 'SG', region_code: 'SIES', timezone_label: 'SGT (UTC+8)', utc_offset_hours: 8, store_url: 'https://store.playstation.com/en-sg/', timezones: ['Asia/Singapore', 'Singapore'] },
   { country: 'Taiwan', country_code: 'TW', region_code: 'SIES', timezone_label: 'TST (UTC+8)', utc_offset_hours: 8, store_url: 'https://store.playstation.com/zh-hant-tw/', timezones: ['Asia/Taipei', 'ROC'] },
   { country: 'Thailand', country_code: 'TH', region_code: 'SIES', timezone_label: 'ICT (UTC+7)', utc_offset_hours: 7, store_url: 'https://store.playstation.com/en-th/', timezones: ['Asia/Bangkok'] },
-  { country: 'Vietnam', country_code: 'VN', region_code: 'SIES', timezone_label: 'ICT (UTC+7)', utc_offset_hours: 7, store_url: 'https://store.playstation.com/en-vn/', timezones: ['Asia/Ho_Chi_Minh', 'Asia/Saigon'] },
 ];
 
 export const regions = [...RAW_REGIONS].sort((a, b) => a.country.localeCompare(b.country, 'en'));
 
 export default regions;
+
+/**
+ * Advisory directory for popular regions without a native PlayStation Storefront.
+ * Helps gamers choose their account region (e.g. UK/US for Nigeria).
+ */
+export const UNSUPPORTED_REGIONS_GUIDE = [
+  {
+    country: 'Nigeria',
+    country_code: 'NG',
+    recommended_codes: ['GB', 'US', 'ZA'],
+    message: 'PlayStation Store does not operate a native storefront in Nigeria. Gamers in Nigeria typically register PlayStation Network accounts in the United Kingdom (UK) or United States (US).',
+    timezones: ['Africa/Lagos', 'Africa/Abuja', 'Africa/Porto-Novo', 'Africa/Douala', 'Africa/Kinshasa', 'Africa/Luanda'],
+    aliases: ['nigeria', 'ng', 'lagos', 'abuja'],
+  },
+  {
+    country: 'Philippines',
+    country_code: 'PH',
+    recommended_codes: ['SG', 'US', 'HK'],
+    message: 'PlayStation Store does not operate a native storefront in the Philippines. Gamers in the Philippines typically use Singapore (SG), United States (US), or Hong Kong (HK) accounts.',
+    timezones: ['Asia/Manila'],
+    aliases: ['philippines', 'ph', 'manila'],
+  },
+  {
+    country: 'Vietnam',
+    country_code: 'VN',
+    recommended_codes: ['SG', 'US'],
+    message: 'PlayStation Store does not operate a native storefront in Vietnam. Gamers in Vietnam typically use Singapore (SG) or United States (US) accounts.',
+    timezones: ['Asia/Ho_Chi_Minh', 'Asia/Saigon'],
+    aliases: ['vietnam', 'vn', 'saigon', 'hanoi'],
+  },
+  {
+    country: 'Ghana',
+    country_code: 'GH',
+    recommended_codes: ['GB', 'US'],
+    message: 'PlayStation Store does not operate a native storefront in Ghana. Gamers in Ghana typically register accounts in the United Kingdom (UK) or United States (US).',
+    timezones: ['Africa/Accra'],
+    aliases: ['ghana', 'gh', 'accra'],
+  },
+  {
+    country: 'Kenya',
+    country_code: 'KE',
+    recommended_codes: ['GB', 'ZA', 'AE'],
+    message: 'PlayStation Store does not operate a native storefront in Kenya. Gamers in Kenya typically register accounts in the United Kingdom (UK) or South Africa (ZA).',
+    timezones: ['Africa/Nairobi'],
+    aliases: ['kenya', 'ke', 'nairobi'],
+  },
+  {
+    country: 'Egypt',
+    country_code: 'EG',
+    recommended_codes: ['AE', 'SA', 'US'],
+    message: 'PlayStation Store does not operate a native storefront in Egypt. Gamers in Egypt typically register accounts in the UAE, Saudi Arabia, or United States.',
+    timezones: ['Africa/Cairo'],
+    aliases: ['egypt', 'eg', 'cairo'],
+  },
+  {
+    country: 'Pakistan',
+    country_code: 'PK',
+    recommended_codes: ['AE', 'GB', 'US'],
+    message: 'PlayStation Store does not operate a native storefront in Pakistan. Gamers in Pakistan typically register accounts in the UAE, United Kingdom, or United States.',
+    timezones: ['Asia/Karachi'],
+    aliases: ['pakistan', 'pk', 'karachi', 'lahore', 'islamabad'],
+  },
+  {
+    country: 'Bangladesh',
+    country_code: 'BD',
+    recommended_codes: ['IN', 'US', 'GB'],
+    message: 'PlayStation Store does not operate a native storefront in Bangladesh. Gamers in Bangladesh typically register accounts in India, the United States, or the United Kingdom.',
+    timezones: ['Asia/Dhaka'],
+    aliases: ['bangladesh', 'bd', 'dhaka'],
+  },
+];
+
+export function findUnsupportedRegion(query) {
+  if (!query) return null;
+  const q = query.trim().toLowerCase();
+  return (
+    UNSUPPORTED_REGIONS_GUIDE.find(
+      (u) =>
+        u.country.toLowerCase() === q ||
+        u.country_code.toLowerCase() === q ||
+        u.aliases?.some((a) => a === q || (q.length >= 3 && a.startsWith(q)))
+    ) || null
+  );
+}
+
+export function findUnsupportedRegionByZone(zone) {
+  if (!zone) return null;
+  return (
+    UNSUPPORTED_REGIONS_GUIDE.find((u) =>
+      u.timezones.some((tz) => (tz.endsWith('/') ? zone.startsWith(tz) : zone === tz))
+    ) || null
+  );
+}
 
 /** "NG" → 🇳🇬 using Unicode regional indicator symbols. */
 export function countryCodeToFlag(code) {
@@ -111,9 +202,10 @@ export function findRegionByCode(code) {
 
 /**
  * Pick the best storefront for this device:
- *   1. exact / prefix match on the IANA zone,
- *   2. otherwise the first region sharing the device's UTC offset on release day,
- *   3. otherwise the United States.
+ *   1. exact / prefix match on the IANA zone with an official storefront,
+ *   2. if device is in a known unsupported territory (e.g. Nigeria), use its primary recommended storefront (e.g. UK),
+ *   3. otherwise the first region sharing the device's UTC offset on release day,
+ *   4. otherwise the United States.
  */
 export function detectRegion(releaseDate = '2026-11-19') {
   let zone = '';
@@ -124,18 +216,28 @@ export function detectRegion(releaseDate = '2026-11-19') {
   }
 
   if (zone) {
+    // 1. Exact / prefix match on official storefront
     const byZone = regions.find((r) =>
       r.timezones.some((tz) => (tz.endsWith('/') ? zone.startsWith(tz) : zone === tz))
     );
     if (byZone) return byZone;
+
+    // 2. Check if device is in an unsupported gaming region with dedicated recommendation
+    const unsupported = findUnsupportedRegionByZone(zone);
+    if (unsupported?.recommended_codes?.[0]) {
+      const rec = findRegionByCode(unsupported.recommended_codes[0]);
+      if (rec) return rec;
+    }
   }
 
+  // 3. Fallback to same offset
   const deviceOffset = -new Date(`${releaseDate}T12:00:00Z`).getTimezoneOffset() / 60;
   const sameOffset = regions.filter((r) => r.utc_offset_hours === deviceOffset);
   const preferred = FALLBACK_PRIORITY.map(findRegionByCode).find((r) => r && sameOffset.includes(r));
   return preferred || sameOffset[0] || findRegionByCode('US');
 }
 
-// Tie-breaker when the device zone has no storefront of its own (e.g. Africa/Lagos):
+// Tie-breaker when the device zone has no storefront of its own:
 // pick the largest market sharing the same UTC offset.
 const FALLBACK_PRIORITY = ['US', 'GB', 'DE', 'FR', 'ZA', 'SA', 'AE', 'IN', 'TH', 'SG', 'JP', 'AU', 'NZ', 'BR', 'MX', 'CA'];
+

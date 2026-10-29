@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { countryCodeToFlag, findUnsupportedRegionByZone } from '../data/regions.js';
 
 /**
  * Build "Thursday, November 19 2026 at 12:00 AM" from Intl parts so the structure is stable
@@ -67,11 +68,43 @@ export default function LocalTimeHint({ region, preloadTimestamp, releaseTimesta
     [preloadTimestamp, releaseTimestamp]
   );
 
+  const unsupportedDevice = useMemo(() => {
+    try {
+      const zone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+      return findUnsupportedRegionByZone(zone);
+    } catch {
+      return null;
+    }
+  }, []);
+
+  const isNorthAmerica = region?.country_code === 'US' || region?.country_code === 'CA';
+
   return (
-    <dl className={`hint${!region ? ' hint--empty' : ''}`} aria-label="Unlock times">
-      {rows.map((r) => (
-        <HintRow key={r.id} label={r.label} timestamp={r.ts} region={region} />
-      ))}
-    </dl>
+    <div className="hint-wrapper">
+      <dl className={`hint${!region ? ' hint--empty' : ''}`} aria-label="Unlock times">
+        {rows.map((r) => (
+          <HintRow key={r.id} label={r.label} timestamp={r.ts} region={region} />
+        ))}
+      </dl>
+
+      {region && (
+        <div className="hint__meta-notes">
+          {isNorthAmerica && (
+            <p className="hint__note">
+              <span className="hint__note-bullet" aria-hidden="true">•</span>
+              PlayStation Store North America unlocks simultaneously nationwide at 12:00 AM EST (e.g. 9:00 PM PST / 11:00 PM CST the previous night).
+            </p>
+          )}
+          {unsupportedDevice && (
+            <p className="hint__note hint__note--unsupported">
+              <span className="hint__note-flag" aria-hidden="true">
+                {countryCodeToFlag(unsupportedDevice.country_code)}
+              </span>
+              PlayStation Store is not natively available in {unsupportedDevice.country}. Displaying {region.country} Store unlock time converted to your local device time.
+            </p>
+          )}
+        </div>
+      )}
+    </div>
   );
 }

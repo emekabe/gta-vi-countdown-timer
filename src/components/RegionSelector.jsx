@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { countryCodeToFlag } from '../data/regions.js';
+import { countryCodeToFlag, findUnsupportedRegion } from '../data/regions.js';
 
 const ANIM_MS = 200;
 const DEBOUNCE_MS = 200;
@@ -25,6 +25,10 @@ export default function RegionSelector({ regions, selected, onSelect }) {
   const triggerRef = useRef(null);
   const inputRef = useRef(null);
   const listRef = useRef(null);
+
+  const unsupportedMatch = useMemo(() => {
+    return findUnsupportedRegion(debouncedQuery);
+  }, [debouncedQuery]);
 
   const filtered = useMemo(() => {
     const q = debouncedQuery.trim().toLowerCase();
@@ -173,6 +177,43 @@ export default function RegionSelector({ regions, selected, onSelect }) {
             </div>
 
             <ul ref={listRef} id="region-list" className="region-panel__list" role="listbox" aria-label="Regions">
+              {unsupportedMatch && (
+                <li className="region-advisory" role="region" aria-label={`PlayStation Store availability for ${unsupportedMatch.country}`}>
+                  <div className="region-advisory__header">
+                    <span className="region-advisory__flag" aria-hidden="true">
+                      {countryCodeToFlag(unsupportedMatch.country_code)}
+                    </span>
+                    <div className="region-advisory__titles">
+                      <strong className="region-advisory__country">{unsupportedMatch.country}</strong>
+                      <span className="region-advisory__tag">No Native Storefront</span>
+                    </div>
+                  </div>
+                  <p className="region-advisory__desc">{unsupportedMatch.message}</p>
+                  <div className="region-advisory__actions">
+                    <span className="region-advisory__prompt">Recommended Storefronts:</span>
+                    <div className="region-advisory__buttons">
+                      {unsupportedMatch.recommended_codes.map((code) => {
+                        const rec = regions.find((r) => r.country_code === code);
+                        if (!rec) return null;
+                        return (
+                          <button
+                            key={code}
+                            type="button"
+                            className="region-advisory__btn"
+                            onClick={() => choose(rec)}
+                          >
+                            <span className="region-advisory__btn-flag" aria-hidden="true">
+                              {countryCodeToFlag(rec.country_code)}
+                            </span>
+                            <span className="region-advisory__btn-name">{rec.country}</span>
+                            <span className="region-advisory__btn-code">({rec.country_code})</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </li>
+              )}
               {filtered.map((r, i) => {
                 const isSelected = r.country_code === selected?.country_code;
                 return (
@@ -194,7 +235,9 @@ export default function RegionSelector({ regions, selected, onSelect }) {
                   </li>
                 );
               })}
-              {filtered.length === 0 && <li className="region-panel__empty">No storefront matches “{debouncedQuery}”</li>}
+              {filtered.length === 0 && !unsupportedMatch && (
+                <li className="region-panel__empty">No storefront matches “{debouncedQuery}”</li>
+              )}
             </ul>
           </div>
         </div>,
