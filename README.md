@@ -9,6 +9,16 @@ No UI libraries, no date libraries.
 
 ---
 
+## Live Preview
+
+The countdown is available for live preview on Vercel:
+
+👉 **[https://gtavicountdown.vercel.app/](https://gtavicountdown.vercel.app/)**
+
+Open the link on desktop or mobile to test store selection, local time conversions, and calendar reminders.
+
+---
+
 ## Run locally
 
 ```bash
@@ -25,8 +35,9 @@ npm run build
 
 This produces a fully self-contained `dist/` folder. You can:
 
-- open `dist/index.html` **directly in a browser** (double-click — no server needed), or
-- upload `dist/` to any static host (Netlify, GitHub Pages, S3, …).
+- open `dist/index.html` **directly in a browser** (double-click — no server needed),
+- preview locally via `npm run preview`, or
+- deploy to **Vercel** (`npx vercel` or push to your connected Git repository). Vite settings (`npm run build`, output directory `dist`) are detected automatically.
 
 > **How the file:// support works:** browsers block `<script type="module">` on
 > `file://`. `vite.config.js` therefore bundles the app into a single classic IIFE
