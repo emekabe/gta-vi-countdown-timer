@@ -1,39 +1,13 @@
 import { useMemo } from 'react';
 import { countryCodeToFlag, findUnsupportedRegionByZone } from '../data/regions.js';
+import { formatInRegion, formatParts, getDeviceTimeZone } from '../utils/timeFormat.js';
+import AddToCalendar from './AddToCalendar.jsx';
 
-/**
- * Build "Thursday, November 19 2026 at 12:00 AM" from Intl parts so the structure is stable
- * while month/day names and the clock style follow the user's locale.
- */
-function formatParts(timestamp, timeZone) {
-  const fmt = new Intl.DateTimeFormat(undefined, {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-    ...(timeZone ? { timeZone } : {}),
-  });
-  const p = Object.fromEntries(fmt.formatToParts(new Date(timestamp)).map(({ type, value }) => [type, value]));
-  const period = p.dayPeriod ? ` ${p.dayPeriod.toUpperCase()}` : '';
-  const time = `${p.hour}:${p.minute}${period}`;
-  return `${p.weekday}, ${p.month} ${p.day} ${p.year} at ${time}`;
-}
-
-/**
- * Region time is derived purely from `utc_offset_hours`: shift the instant by the
- * offset and format it as UTC. This avoids IANA zones entirely (several store
- * regions share an offset but not a zone name).
- */
-function formatInRegion(timestamp, utcOffsetHours) {
-  return formatParts(timestamp + utcOffsetHours * 3600 * 1000, 'UTC');
-}
-
-function HintRow({ label, timestamp, region }) {
+function HintRow({ kind, label, timestamp, region, unsupportedDevice }) {
   const regionText = region && timestamp ? formatInRegion(timestamp, region.utc_offset_hours) : '';
   const deviceText = timestamp ? formatParts(timestamp) : '';
+  // App re-renders every second, so this flips as soon as the unlock passes.
+  const isUpcoming = Boolean(timestamp) && timestamp > Date.now();
 
   return (
     <div className="hint__row">
@@ -52,6 +26,9 @@ function HintRow({ label, timestamp, region }) {
             <span className="hint__secondary">
               That&rsquo;s <strong>{deviceText}</strong> in your current location time
             </span>
+            {isUpcoming && (
+              <AddToCalendar kind={kind} region={region} startTs={timestamp} unsupportedDevice={unsupportedDevice} />
+            )}
           </>
         ) : null}
       </dd>
@@ -68,14 +45,7 @@ export default function LocalTimeHint({ region, preloadTimestamp, releaseTimesta
     [preloadTimestamp, releaseTimestamp]
   );
 
-  const unsupportedDevice = useMemo(() => {
-    try {
-      const zone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-      return findUnsupportedRegionByZone(zone);
-    } catch {
-      return null;
-    }
-  }, []);
+  const unsupportedDevice = useMemo(() => findUnsupportedRegionByZone(getDeviceTimeZone()), []);
 
   const isNorthAmerica = region?.country_code === 'US' || region?.country_code === 'CA';
 
@@ -83,7 +53,14 @@ export default function LocalTimeHint({ region, preloadTimestamp, releaseTimesta
     <div className="hint-wrapper">
       <dl className={`hint${!region ? ' hint--empty' : ''}`} aria-label="Unlock times">
         {rows.map((r) => (
-          <HintRow key={r.id} label={r.label} timestamp={r.ts} region={region} />
+          <HintRow
+            key={r.id}
+            kind={r.id}
+            label={r.label}
+            timestamp={r.ts}
+            region={region}
+            unsupportedDevice={unsupportedDevice}
+          />
         ))}
       </dl>
 

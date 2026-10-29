@@ -120,13 +120,23 @@ saved in `localStorage`.
 
 ---
 
+## Calendar Reminders
+
+Under both **Preloads** and **Releases**, users can click **+ Add to calendar** to schedule a 1-hour event reminder:
+- **Google Calendar**: 1-click web deeplink pre-filled with dynamic local times, store details, and direct links.
+- **Apple Calendar / Other (.ics)**: Standard RFC 5545 iCalendar download with built-in alarms (1 day and 15 minutes before unlock).
+- **Outlook.com & Office 365**: Direct compose deeplinks for personal or work accounts.
+- **Accurate time conversion**: All calendar entries use exact UTC instants (`Z`), guaranteeing the event lands at the exact local time displayed on the user's screen.
+
+---
+
 ## Project structure
 
 ```
 public/            favicon.svg, artwork/
-src/components/    TabNav, CountdownDisplay, RegionSelector, LocalTimeHint, ArtworkBackground, Footer
+src/components/    TabNav, CountdownDisplay, RegionSelector, LocalTimeHint, AddToCalendar, ArtworkBackground, Footer
 src/data/          regions.js
-src/utils/         countdown.js
+src/utils/         countdown.js, calendar.js, timeFormat.js
 src/App.jsx        state: active tab, selected region, 1-second ticker
 src/App.css        design tokens + all styles
 ```

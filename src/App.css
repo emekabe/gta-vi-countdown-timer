@@ -981,6 +981,126 @@ button {
   line-height: 1;
 }
 
+/* Add to calendar */
+.calendar {
+  position: relative;
+  align-self: center;
+  margin-top: 0.35rem;
+}
+
+.calendar-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  transition: color var(--dur-ui) ease;
+}
+
+.calendar-btn::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--gradient-brand);
+  transform: scaleX(0.35);
+  transform-origin: left;
+  opacity: 0.6;
+  transition: transform var(--dur-ui) var(--ease-cinematic), opacity var(--dur-ui) ease;
+}
+
+.calendar-btn:hover,
+.calendar-btn[aria-expanded='true'] {
+  color: var(--color-text);
+}
+
+.calendar-btn:hover::after,
+.calendar-btn[aria-expanded='true']::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+.calendar-btn__plus {
+  color: var(--color-pink);
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.calendar-menu {
+  position: absolute;
+  left: 50%;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  min-width: 15rem;
+  padding: 0.35rem;
+  border-radius: 12px;
+  background: rgba(14, 10, 26, 0.88);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  text-align: left;
+  animation: calendar-menu-in var(--dur-ui) var(--ease-cinematic);
+}
+
+.calendar-menu--down {
+  top: calc(100% + 0.4rem);
+  transform: translateX(-50%);
+  transform-origin: top center;
+}
+
+.calendar-menu--up {
+  bottom: calc(100% + 0.4rem);
+  transform: translateX(-50%);
+  transform-origin: bottom center;
+}
+
+@keyframes calendar-menu-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+.calendar-menu__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 40px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  text-align: left;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.calendar-menu__item:hover,
+.calendar-menu__item:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+  outline: none;
+}
+
+.calendar-menu__ext {
+  color: var(--color-text-dim);
+  font-size: 0.75rem;
+}
+
 /* ==========================================================================
    Footer
    ========================================================================== */
@@ -1068,6 +1188,20 @@ button {
 
   .hint__arrow {
     display: inline;
+  }
+
+  .calendar {
+    align-self: flex-start;
+  }
+
+  .calendar-menu {
+    left: 0;
+  }
+
+  .calendar-menu--down,
+  .calendar-menu--up {
+    transform: none;
+    transform-origin: top left;
   }
 }
 
