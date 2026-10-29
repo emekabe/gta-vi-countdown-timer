@@ -6,9 +6,9 @@
  */
 import { formatInRegion, formatParts, getDeviceOffsetLabel, getDeviceTimeZone } from './timeFormat.js';
 
-export const SITE_URL = 'https://gtavicountdown.vercel.app/';
+export const SITE_URL = 'https://gtavicountdowntimer.vercel.app/';
 const EVENT_DURATION_MS = 60 * 60 * 1000; // 1 hour
-const UID_DOMAIN = 'gtavicountdown.vercel.app';
+const UID_DOMAIN = 'gtavicountdowntimer.vercel.app';
 
 const COPY = {
   preload: {
@@ -156,7 +156,7 @@ export function buildIcs(event, now = Date.now()) {
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//GTA VI Countdown//gtavicountdown.vercel.app//EN',
+    'PRODID:-//GTA VI Countdown//gtavicountdowntimer.vercel.app//EN',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',

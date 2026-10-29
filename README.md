@@ -13,7 +13,7 @@ No UI libraries, no date libraries.
 
 The countdown is available for live preview on Vercel:
 
-👉 **[https://gtavicountdown.vercel.app/](https://gtavicountdown.vercel.app/)**
+👉 **[https://gtavicountdowntimer.vercel.app/](https://gtavicountdowntimer.vercel.app/)**
 
 Open the link on desktop or mobile to test store selection, local time conversions, and calendar reminders.
 
