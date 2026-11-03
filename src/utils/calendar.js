@@ -76,12 +76,12 @@ export function buildCalendarEvent({ kind, region, startTs, unsupportedDevice = 
   };
 }
 
-/** 2026-11-12T05:00:00.000Z → 20261112T050000Z */
+/** 2026-11-10T05:00:00.000Z → 20261110T050000Z */
 function toIcsUtc(ts) {
   return new Date(ts).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
 }
 
-/** ISO without milliseconds, e.g. 2026-11-12T05:00:00Z (Outlook deeplinks). */
+/** ISO without milliseconds, e.g. 2026-11-10T05:00:00Z (Outlook deeplinks). */
 function toIsoUtc(ts) {
   return new Date(ts).toISOString().replace(/\.\d{3}/, '');
 }

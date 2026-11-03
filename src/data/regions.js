@@ -1,7 +1,7 @@
 /**
  * PlayStation Store storefronts and regional storefront entries.
  *
- * `utc_offset_hours` is the offset in force on **19 November 2026** (and 12 Nov):
+ * `utc_offset_hours` is the offset in force on **19 November 2026** (and 10 Nov):
  *   - Northern hemisphere DST has ended (EU: 25 Oct, US/CA: 1 Nov, IL: 25 Oct).
  *   - Southern hemisphere DST is active: Australia (Sydney) +11, New Zealand +13,
  *     Chile (Santiago) -3.

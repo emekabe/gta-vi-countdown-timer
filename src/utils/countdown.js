@@ -8,7 +8,7 @@
  */
 
 export const RELEASE_DATE = '2026-11-19';
-export const PRELOAD_DATE = '2026-11-12'; // exactly 7 days before release
+export const PRELOAD_DATE = '2026-11-10'; // updated by Rockstar (9 days before release)
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;

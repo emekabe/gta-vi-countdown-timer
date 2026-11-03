@@ -1,7 +1,7 @@
 # GTA VI Countdown
 
 An unofficial, fan-made countdown to **Grand Theft Auto VI** on PS5 — for both the
-**preload** (12 Nov 2026) and the **release** (19 Nov 2026) — calculated for the
+**preload** (10 Nov 2026 (previously 12 Nov 2026)) and the **release** (19 Nov 2026) — calculated for the
 exact midnight unlock in every PlayStation Store region.
 
 Built with Vite + React (plain JavaScript), vanilla CSS, and native `Date` / `Intl` APIs.
